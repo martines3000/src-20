@@ -1,13 +1,12 @@
-use std::path::PathBuf;
-
 use fuels::accounts::wallet::WalletUnlocked;
 use fuels::prelude::{abigen, Contract, LoadConfiguration, TxPolicies};
 use fuels::programs::call_response::FuelCallResponse;
-use fuels::programs::call_utils::TxDependencyExtension;
+use fuels::types::transaction_builders::VariableOutputPolicy;
 use fuels::types::{Address, AssetId, Bits256, ContractId, Identity};
 use rand::Rng;
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
+use std::path::PathBuf;
 
 abigen!(Contract(
     name = "TokenContract",
@@ -41,8 +40,8 @@ impl Asset {
             .unwrap()
             .methods()
             .mint(Identity::Address(recipient), symbol_hash, amount)
-            .append_variable_outputs(1)
-            .with_tx_policies(TxPolicies::default().with_gas_price(1))
+            .with_variable_output_policy(VariableOutputPolicy::Exactly(1))
+            .with_tx_policies(TxPolicies::default().with_tip(1))
             .call()
             .await
     }
@@ -83,7 +82,7 @@ pub async fn deploy_token_contract(wallet: &WalletUnlocked) -> TokenContract<Wal
     let id = Contract::load_from(bin_path, config)
         .unwrap()
         .with_salt(salt)
-        .deploy(wallet, TxPolicies::default().with_gas_price(1))
+        .deploy(wallet, TxPolicies::default().with_tip(1))
         .await
         .unwrap();
     let instance = TokenContract::new(id.clone(), wallet.clone());
