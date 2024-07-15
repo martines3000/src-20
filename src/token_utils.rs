@@ -1,6 +1,6 @@
 use fuels::accounts::wallet::WalletUnlocked;
 use fuels::prelude::{abigen, Contract, LoadConfiguration, TxPolicies};
-use fuels::programs::call_response::FuelCallResponse;
+use fuels::programs::responses::CallResponse;
 use fuels::types::transaction_builders::VariableOutputPolicy;
 use fuels::types::{Address, AssetId, Bits256, ContractId, Identity};
 use rand::Rng;
@@ -33,7 +33,7 @@ impl Asset {
         &self,
         recipient: Address,
         amount: u64,
-    ) -> Result<FuelCallResponse<()>, fuels::types::errors::Error> {
+    ) -> Result<CallResponse<()>, fuels::types::errors::Error> {
         let symbol_hash = get_symbol_hash(&self.symbol);
         self.token_contract_instance
             .as_ref()
