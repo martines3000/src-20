@@ -2,12 +2,10 @@ use fuels::{
     prelude::ViewOnlyAccount,
     test_helpers::{launch_custom_provider_and_get_wallets, WalletsConfig},
 };
-use src20_sdk::{print_title, token_utils::{deploy_token_contract, Asset}};
+use src20_sdk::token_utils::{deploy_token_contract, Asset};
 
 #[tokio::test]
 async fn main_test() {
-    print_title("Main test");
-
     let wallets_config = WalletsConfig::new(Some(5), Some(1), Some(1_000_000_000));
     let wallets = launch_custom_provider_and_get_wallets(wallets_config, None, None)
         .await

@@ -2,7 +2,6 @@
 name = "src20_sdk"
 version = "0.0.3"
 edition = "2021"
-authors = ["alexey <alexnagornnyy.an@gmail.com>"]
 license = "Apache-2.0"
 description = "Sway token standard SRC-20 rust sdk"
 
@@ -22,12 +21,3 @@ tokio = { version = "1.12", features = ["full"] }
 harness = true
 name = "tests"
 path = "tests/harness.rs"
-
-
-[[bin]]
-name = "deploy"
-path = "scripts/deploy.rs"
-
-[[bin]]
-name = "mint"
-path = "scripts/mint.rs"
